@@ -23,6 +23,10 @@ func TestContent(t *testing.T) {
 			`{"type":"text","text":"hello"}`,
 		},
 		{
+			&mcp.TextContent{Text: ""},
+			`{"type":"text","text":""}`,
+		},
+		{
 			&mcp.TextContent{
 				Text:        "hello",
 				Meta:        mcp.Meta{"key": "value"},

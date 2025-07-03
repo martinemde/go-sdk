@@ -25,12 +25,19 @@ type TextContent struct {
 }
 
 func (c *TextContent) MarshalJSON() ([]byte, error) {
-	return json.Marshal(&wireContent{
+	// Custom wire format to ensure the required "text" field is always included, even when empty.
+	wire := struct {
+		Type        string       `json:"type"`
+		Text        string       `json:"text"`
+		Meta        Meta         `json:"_meta,omitempty"`
+		Annotations *Annotations `json:"annotations,omitempty"`
+	}{
 		Type:        "text",
 		Text:        c.Text,
 		Meta:        c.Meta,
 		Annotations: c.Annotations,
-	})
+	}
+	return json.Marshal(wire)
 }
 
 func (c *TextContent) fromWire(wire *wireContent) {
